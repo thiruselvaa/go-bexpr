@@ -1,0 +1,54 @@
+---
+filter:
+  condition: >-
+    (
+      (
+        (foo == 3)
+        and
+        (
+          not
+          (
+            (bar in baz)
+            and
+            (
+              not
+              (one != two)
+            )
+          )
+        )
+      )
+      or
+      (
+        (
+          (next is empty)
+          and 
+          (
+            not
+            (foo is not empty)
+          )
+        )
+        and 
+        (bar not in foo)
+      )
+    )
+  field:
+    definitions:
+    - name: foo
+      path: foo>string
+      message_component: VALUE
+      properties:
+        type: array
+        items:
+          type: string
+          match_case: true
+          trim_whitespaces: BOTH
+  cache:
+    definitions:
+    - name: cdb_security
+      loader:
+        ebaas:
+          row_type: cdb_security
+          partition_keys:
+          - SDA
+          - SDA
+          parse_value_from_path: "[]>CDB_SECURITY_DATA>ROLE_ID>string"
